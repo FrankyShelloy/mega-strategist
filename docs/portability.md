@@ -4,19 +4,25 @@
 `AGENTS.md`, `skills/`, `knowledge/`, `projects/`, `scripts/`. Пути относительные, внешних Python-пакетов нет.
 
 ## Хук после записи в claims.md
-В репозитории один IDE-хук: `PostToolUse` на `Write|Edit` вызывает `scripts/check.py --hook`. Скрипт сам проверяет, относится ли изменённый файл к `claims.md`, `sources.csv` или `state.md`, и возвращает exit 2 с текстом ошибки.
+**Статус 4.11: не подтверждено.** Конфиг `PostToolUse` лежит в `.claude/settings.json` и должен вызывать `scripts/check.py --hook`, но автоматический запуск в DeepSeek harness не сработал: в тестовом профиле `hooktest` не создался маркер `SessionStart`, а запись в `claims.md` через `edit` не вызвала `check.py`. Автоматический хук не заявляем работающим.
+
+Ручной режим до подтверждения: после каждой записи в `claims.md` и `sources.csv` выполнить `python3 scripts/check.py`. Скрипт проверяет изменённый файл, если передан `--hook`, или весь проект без флага.
 
 ### DeepSeek harness
 Мост `@deepseek-ai/dsh-hooks-claude-code` читает конфиг Claude Code. Пример подключения:
 
 ```yaml
-- name: '@deepseek-ai/dsh-hooks-claude-code'
-  config:
-    configPath: ./.claude/settings.json
-    projectDir: .
+- insert:
+    - id: hooks-claude-code
+      name: '@deepseek-ai/dsh-hooks-claude-code'
+      config:
+        configPath: ./.claude/settings.json
+        projectDir: .
 ```
 
-Если мост не включён в профиле, хук не срабатывает. Тогда проверка запускается вручную после стадии: `python3 scripts/check.py --hook`.
+В тесте 4.11 строка собиралась через `insert`, но хук всё равно не сработал. Это не рабочий рецепт, а заготовка для следующей проверки.
+
+Если мост не включён в профиле, хук не срабатывает. Тогда проверка запускается вручную после стадии: `python3 scripts/check.py`.
 
 ### Claude Code
 `.claude/settings.json` читается нативно. Ничего дополнительно подключать не нужно.

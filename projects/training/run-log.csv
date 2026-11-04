@@ -1,0 +1,4 @@
+ts,stage,actor,action,tool,artifact,status,note,tokens_in,tokens_out,cost_rub,human_min,cost_source
+2026-11-04T21:55:00+07:00,00-intake,DeepSeek,заполнена карточка запроса,harness,projects/training/brief.md,done,допущения вынесены на G1,,,,
+2026-11-04T21:58:00+07:00,01-research-plan,DeepSeek,составлен план из 9 вопросов,harness,projects/training/research-plan.md,done,приоритет 1/4/5/8,,,,
+2026-11-04T22:01:00+07:00,01-research-plan,DeepSeek,остановка на шлюзе G1,harness,projects/training/state.md,waiting_human,ждёт подтверждения человека,,,,

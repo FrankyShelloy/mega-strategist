@@ -1,6 +1,2 @@
 #!/bin/sh
-# Заглушка до 5.11. После появления scripts/check.py запускает проверку staged-файлов.
-if [ -f scripts/check.py ]; then
-  exec python3 scripts/check.py --staged
-fi
-exit 0
+exec python3 scripts/check.py --staged
