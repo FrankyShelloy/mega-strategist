@@ -1,0 +1,3 @@
+ts,stage,tokens_in,tokens_out,cost_rub,human_min,cost_source
+2026-11-04T22:47:37+07:00,baseline-benchmark,623,2180,,,user-run DeepSeek API; prompt 623 + completion 2180 = 2803
+2026-11-04T22:51:15+07:00,training-day-1-6 (estimate),171840,196818,,,DSH session usage main+critic; input+output = 368658; cache_read 31775744 excluded

@@ -39,19 +39,21 @@ def parse_sources(path, errors):
             if source_id:
                 ids.add(source_id)
     return ids
+def check_line(path, number, text, ids, errors):
+    if not TAG.search(text):
+        err(errors, path, f"строка {number}: нет тега [FACT]/[HYP]/[FORECAST]")
+    refs = SREF.findall(text)
+    if not refs:
+        err(errors, path, f"строка {number}: нет ссылки [S#]")
+    for ref in refs:
+        if f"S{int(ref):02d}" not in ids:
+            err(errors, path, f"строка {number}: источник S{int(ref):02d} отсутствует")
+
 def check_claims(path, ids, errors):
     for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
         text = line.strip()
-        if not text.startswith("- ") or len(text) <= 2:
-            continue
-        if not TAG.search(text):
-            err(errors, path, f"строка {number}: нет тега [FACT]/[HYP]/[FORECAST]")
-        refs = SREF.findall(text)
-        if not refs:
-            err(errors, path, f"строка {number}: нет ссылки [S#]")
-        for ref in refs:
-            if f"S{int(ref):02d}" not in ids:
-                err(errors, path, f"строка {number}: источник S{int(ref):02d} отсутствует")
+        if re.match(r"\| [CK]\d+", text) or (text.startswith("- ") and len(text) > 2):
+            check_line(path, number, text, ids, errors)
 
 def check_project(project, errors):
     state, sources, claims = project / "state.md", project / "sources.csv", project / "claims.md"

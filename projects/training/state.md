@@ -1,9 +1,9 @@
 # Состояние проекта: training
 
-stage: 04-options
-status: waiting_human
-next_action: G2 — выбрать одно из четырёх направлений; после решения перейти к product-strategy
-human_gate: G1 пройден 2026-11-04: рынок РФ + 3 аналога; удержание = активность через 30 дней; 12 месяцев; 9 вопросов; приоритет 1/4/5/8. G2: варианты 01–04 и критический проход готовы, ждёт выбора направления.
-do_not_redo: [intake v1, research-plan v1, G1-подтверждение, sources v1, claims v1, gaps v1, options v1, critic v1]
-open_questions: [какой сегмент приоритетен, готовность платить за активацию или контент, есть ли доступ к 30-дневным когортам]
+stage: 08-decision
+status: completed
+next_action: нет — тренировка закрыта; проект demo ждёт бриф 8 ноября
+human_gate: G1, G2 и G3 пройдены 2026-11-04. G2: 03-activation (D1). G3: обещания, guardrail и тест-план подтверждены. Тренировка завершена.
+do_not_redo: [intake v1, research-plan v1, G1-подтверждение, sources v1, claims v1, gaps v1, options v1, critic v1, G2-выбор, product v1, communication v1, test-plan v1, G3-подтверждение, decision-record v1]
+open_questions: [нет]
 updated: 2026-11-04
