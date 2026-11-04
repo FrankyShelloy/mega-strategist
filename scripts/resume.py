@@ -8,11 +8,23 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 
+def active():
+    file = ROOT / "projects" / "ACTIVE"
+    if not file.exists():
+        return None
+    slug = file.read_text(encoding="utf-8").strip()
+    return f"projects/{slug}" if slug else None
+
+
 def main():
     parser = argparse.ArgumentParser(description="Продолжить проект с сохранённого места")
-    parser.add_argument("--project", default="projects/demo", help="каталог проекта")
+    parser.add_argument("--project", help="каталог проекта; по умолчанию из projects/ACTIVE")
     args = parser.parse_args()
-    project = (ROOT / args.project).resolve()
+    raw = args.project or active()
+    if not raw:
+        print("нет projects/ACTIVE: укажи --project projects/<slug>", file=sys.stderr)
+        return 1
+    project = (ROOT / raw).resolve()
     state = project / "state.md"
     if not state.exists():
         print(f"нет state.md: {state}", file=sys.stderr)

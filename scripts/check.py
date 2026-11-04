@@ -6,13 +6,19 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 TAG = re.compile(r"\[(FACT|HYP|FORECAST)\]")
 SREF = re.compile(r"\[S(\d+)\]")
-SECRET = re.compile(r"(sk-[A-Za-z0-9]{10,}|AIza[0-9A-Za-z_-]{10,}|ghp_[A-Za-z0-9]{10,}|-----BEGIN (?:RSA|OPENSSH) PRIVATE KEY-----)")
+SECRET = re.compile(r"(?<![A-Za-z0-9_-])(sk-[A-Za-z0-9]{10,}|AIza[0-9A-Za-z_-]{10,}|ghp_[A-Za-z0-9]{10,}|-----BEGIN (?:RSA|OPENSSH) PRIVATE KEY-----)")
 STATE = ("stage", "status", "next_action", "human_gate", "do_not_redo", "open_questions", "updated")
 SOURCE = ("id", "url", "title", "type", "license", "quote")
 SKIP = {".git", "__pycache__", ".venv", "node_modules"}
 
 def err(errors, path, message):
     errors.append(f"{path}: {message}")
+def active_project(root):
+    file = root / "projects" / "ACTIVE"
+    if not file.exists():
+        return None
+    slug = file.read_text(encoding="utf-8").strip()
+    return (root / "projects" / slug).resolve() if slug else None
 def parse_state(path, errors):
     data = {}
     for line in path.read_text(encoding="utf-8").splitlines():
@@ -78,6 +84,11 @@ def scan_all(root, errors):
             if root != ROOT or "evals/fixtures" not in path.as_posix():
                 scan_file(path, errors)
 
+def check_all(root, errors):
+    for project in sorted((root / "projects").glob("*/")):
+        if project.is_dir() and not project.name.startswith("_"):
+            check_project(project, errors)
+
 def hook_project(root):
     try:
         payload = json.load(sys.stdin)
@@ -95,7 +106,8 @@ def hook_project(root):
 def main():
     parser = argparse.ArgumentParser(description="Проверка каркаса mega-strategist")
     parser.add_argument("--hook", action="store_true", help="проверить файл из JSON stdin")
-    parser.add_argument("--staged", action="store_true", help="полная проверка перед коммитом")
+    parser.add_argument("--staged", action="store_true", help="полная проверка всех проектов перед коммитом")
+    parser.add_argument("--all", action="store_true", help="проверить все проекты, не только активный")
     parser.add_argument("--secrets", action="store_true", help="только скан секретов")
     parser.add_argument("--root", default=str(ROOT), help="корень проверки")
     args = parser.parse_args()
@@ -107,10 +119,15 @@ def main():
             check_project(project, errors)
     elif args.secrets:
         scan_all(root, errors)
+    elif args.staged or args.all:
+        check_all(root, errors)
+        scan_all(root, errors)
     else:
-        for project in sorted((root / "projects").glob("*/")):
-            if project.is_dir() and not project.name.startswith("_"):
-                check_project(project, errors)
+        project = active_project(root)
+        if project is not None:
+            check_project(project, errors)
+        else:
+            check_all(root, errors)
         scan_all(root, errors)
     for error in errors:
         print(error, file=sys.stderr)
