@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|write|edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh -c 'if [ -f scripts/check.py ]; then exec python3 scripts/check.py --hook; fi'",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

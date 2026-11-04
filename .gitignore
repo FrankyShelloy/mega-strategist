@@ -1,0 +1,33 @@
+# Секреты и локальные настройки
+.claude/settings.local.json
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+secrets/
+.private/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Среда и ОС
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# Временные файлы
+*.tmp
+*.bak
+tmp/
+.cache/
