@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mega-strategist — Описание работы</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; font-size: 10.5pt; line-height: 1.6; color: #1a1a1a; background: #fff; }
+  .cover { page-break-after: always; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 60px 72px; background: #f8f9fa; border-left: 8px solid #E8003D; }
+  .cover .label { font-size: 11pt; color: #E8003D; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+  .cover h1 { font-size: 32pt; font-weight: 700; color: #111; line-height: 1.2; margin-bottom: 16px; }
+  .cover .subtitle { font-size: 14pt; color: #444; font-weight: 400; margin-bottom: 40px; max-width: 580px; }
+  .cover .meta { font-size: 10pt; color: #666; line-height: 2; }
+  .cover .meta strong { color: #111; }
+  section { padding: 48px 72px; page-break-inside: avoid; }
+  section + section { border-top: 1px solid #e8e8e8; }
+  h2 { font-size: 18pt; font-weight: 700; color: #111; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #E8003D; }
+  h3 { font-size: 13pt; font-weight: 600; color: #222; margin: 24px 0 10px; }
+  h4 { font-size: 11pt; font-weight: 600; color: #333; margin: 16px 0 8px; }
+  p { margin-bottom: 12px; }
+  ul, ol { margin: 10px 0 14px 24px; }
+  li { margin-bottom: 6px; }
+  code { font-family: 'Courier New', monospace; background: #f4f4f4; padding: 1px 5px; border-radius: 3px; font-size: 9.5pt; color: #c7254e; }
+  pre { background: #f4f4f4; border: 1px solid #ddd; border-radius: 4px; padding: 14px 18px; margin: 14px 0; overflow-x: auto; }
+  pre code { background: none; color: #333; padding: 0; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 9.5pt; }
+  th { background: #E8003D; color: #fff; padding: 8px 10px; text-align: left; font-weight: 600; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e8e8e8; vertical-align: top; }
+  tr:nth-child(even) td { background: #fafafa; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 8.5pt; font-weight: 600; }
+  .badge-green { background: #d4edda; color: #155724; }
+  .badge-red { background: #fde8e8; color: #991b1b; }
+  .badge-blue { background: #dbeafe; color: #1e40af; }
+  .callout { border-left: 4px solid #E8003D; background: #fff5f7; padding: 12px 18px; border-radius: 0 6px 6px 0; margin: 16px 0; }
+  .callout-blue { border-left-color: #3b82f6; background: #eff6ff; }
+  .callout-green { border-left-color: #22c55e; background: #f0fdf4; }
+  .diagram { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 24px; margin: 20px 0; font-family: 'Courier New', monospace; font-size: 9pt; line-height: 1.8; }
+  .section-num { display: inline-block; background: #E8003D; color: #fff; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; font-weight: 700; font-size: 12pt; margin-right: 10px; vertical-align: middle; }
+  @media print {
+    body { font-size: 10pt; }
+    section { padding: 32px 54px; }
+    .cover { padding: 48px 54px; }
+    h2 { font-size: 16pt; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ОБЛОЖКА -->
+<div class="cover">
+  <div class="label">Хакатон МегаФона · Стратег Фабрики продуктов</div>
+  <h1>mega-strategist</h1>
+  <div class="subtitle">ИИ-агент для руководителя цифрового продукта: от размытого запроса до обоснованной продуктовой и коммуникационной стратегии</div>
+  <div class="meta">
+    <strong>Репозиторий:</strong> github.com/FrankyShelloy/mega-strategist<br>
+    <strong>Демо-кейс:</strong> «Связь для близких и собственных устройств» (МегаФон ТВ / МегаСемья)<br>
+    <strong>Дата сдачи:</strong> 2026-11-21<br>
+    <strong>Стоимость демо-прогона:</strong> 0 ₽ · 180 мин · 3 шлюза G1–G3<br>
+    <strong>Статус проверки:</strong> <code>python3 scripts/check.py --all</code> → 0 ошибок
+  </div>
+</div>
+
+<!-- 1. АРХИТЕКТУРА -->
+<section>
+  <h2><span class="section-num">1</span>Архитектура агента</h2>
+
+  <h3>Тезис</h3>
+  <p>Репозиторий — это <strong>протокол принятия решений</strong>, а не фреймворк и не приложение. Рантайм — IDE-агент (Cursor / Claude Code / Antigravity / DeepSeek Harness), который читает <code>AGENTS.md</code> и вызывает <code>skills/</code>. Ценность — дисциплина доказательств, возобновляемость и прослеживаемость.</p>
+
+  <h3>Карта стадий (10 шагов + 3 шлюза)</h3>
+  <table>
+    <tr><th>#</th><th>Стадия</th><th>Скилл</th><th>Основной артефакт</th><th>Шлюз</th></tr>
+    <tr><td>0</td><td>Постановка задачи</td><td><code>skills/intake</code></td><td><code>brief.md</code></td><td>—</td></tr>
+    <tr><td>1</td><td>План исследования</td><td><code>skills/research-plan</code></td><td><code>research-plan.md</code></td><td><strong>G1</strong></td></tr>
+    <tr><td>2</td><td>Сбор материалов</td><td><code>skills/collect-sources</code></td><td><code>sources.csv</code></td><td>—</td></tr>
+    <tr><td>3</td><td>Доказательства</td><td><code>skills/evidence</code></td><td><code>claims.md</code>, <code>gaps.md</code></td><td>—</td></tr>
+    <tr><td>4</td><td>Варианты</td><td><code>skills/options</code></td><td><code>options/01–04.md</code></td><td><strong>G2</strong></td></tr>
+    <tr><td>5</td><td>Продуктовая стратегия</td><td><code>skills/product-strategy</code></td><td><code>strategy/product.md</code></td><td>—</td></tr>
+    <tr><td>6</td><td>Коммуникация</td><td><code>skills/communication</code></td><td><code>strategy/communication.md</code></td><td>—</td></tr>
+    <tr><td>7</td><td>План проверки</td><td><code>skills/test-plan</code></td><td><code>strategy/test-plan.md</code></td><td><strong>G3</strong></td></tr>
+    <tr><td>8</td><td>Решение</td><td><code>skills/decision-record</code></td><td><code>decision-log.md</code></td><td>—</td></tr>
+    <tr><td>9</td><td>Пересмотр</td><td><code>skills/review</code></td><td>обновлённые claims/decisions</td><td>—</td></tr>
+  </table>
+
+  <h3>Четыре контракта (формат данных)</h3>
+  <div class="diagram">
+state.md:    stage · status · next_action · human_gate · do_not_redo · open_questions · updated<br>
+sources.csv: id · url · title · type · published · accessed · license · quote · confidence · status<br>
+claims.md:   C07 [FACT|S04] ...  C08 [HYP] ...  C09 [FORECAST] ...<br>
+run-log.csv: ts · stage · actor · action · tool · artifact · status · note · tokens_in · tokens_out · cost_rub · human_min
+  </div>
+
+  <h3>Структура репозитория</h3>
+  <div class="diagram">
+mega-strategist/<br>
+├── AGENTS.md           ← главный системный промпт (правила, стадии, субагенты)<br>
+├── skills/             ← 10 повторяемых процедур (intake → review)<br>
+├── agents/             ← 6 специализированных ролей<br>
+├── knowledge/          ← методологическая база (evidence, interviews, unit-economics, communication)<br>
+├── projects/<br>
+│   ├── ACTIVE          ← slug активного проекта (одна строка)<br>
+│   └── demo/           ← демо-кейс МегаФона (полный цикл, стадии 0–9)<br>
+├── scripts/            ← 9 детерминированных CLI-скриптов (Python 3.11+, stdlib)<br>
+├── evals/              ← тесты, rubric, baseline, кейсы<br>
+├── docs/               ← описание архитектуры, модели, промпты, ограничения<br>
+└── .githooks/          ← pre-commit hook → check.py --staged
+  </div>
+
+  <h3>Работа с контекстом и знаниями</h3>
+  <ul>
+    <li><strong>Постоянные инструкции</strong> — <code>AGENTS.md</code>, <code>skills/</code>: читаются в начале каждой сессии.</li>
+    <li><strong>Методологическая база</strong> — <code>knowledge/methods/</code>: открывается агентом по карте <code>knowledge/INDEX.md</code> только когда нужна конкретная методика.</li>
+    <li><strong>Материалы проекта</strong> — <code>projects/demo/</code>: читаются при переходе на нужную стадию.</li>
+    <li><strong>Состояние сессии</strong> — <code>projects/demo/state.md</code>: единственный источник правды о том, где остановился агент. Скрипт <code>resume.py</code> восстанавливает контекст с нуля за 3 секунды.</li>
+  </ul>
+
+  <h3>Хуки и автоматизация</h3>
+  <ul>
+    <li><strong>Git pre-commit hook</strong> (<code>.githooks/pre-commit</code>): запускает <code>check.py --staged</code> перед каждым коммитом. Подтверждено.</li>
+    <li><strong>IDE PostToolUse hook</strong> (<code>.claude/settings.json</code>): вызывает <code>check.py --hook</code> после каждой записи в <code>claims.md</code>. Статус: задокументировано, активирует человек при настройке среды.</li>
+    <li><strong>Antigravity (подтверждено 2026-11-21)</strong>: читает <code>AGENTS.md</code>, выполняет все скрипты через встроенный терминал, 0 ошибок при <code>check.py --all</code>.</li>
+  </ul>
+</section>
+
+<!-- 2. МОДЕЛИ И ИНСТРУМЕНТЫ -->
+<section>
+  <h2><span class="section-num">2</span>Модели, сервисы и инструменты</h2>
+
+  <table>
+    <tr><th>Компонент</th><th>Для чего используется</th><th>Стоимость</th></tr>
+    <tr>
+      <td><strong>DeepSeek V3 / R1</strong><br>(через Harness / API)</td>
+      <td>Постановка задачи, синтез доказательств, разработка стратегий и плана проверки. Длинный контекст для обработки 20+ источников.</td>
+      <td>0 ₽ (бесплатный тариф / квоты)</td>
+    </tr>
+    <tr>
+      <td><strong>Gemini Flash / Pro</strong><br>(Google DeepMind / Antigravity)</td>
+      <td>Мультимодальный анализ брифа (PDF), извлечение таблиц, независимая критика вариантов в чистом контексте.</td>
+      <td>0 ₽ (Google AI Studio)</td>
+    </tr>
+    <tr>
+      <td><strong>Python 3.11+ stdlib</strong><br><code>check.py · resume.py · report.py · review.py · calc_economics.py · simulate_persona.py · new_project.py · verify_urls.py · baseline_run.py</code></td>
+      <td>Детерминированная валидация, расчёт формул юнит-экономики, генерация отчётов, управление состоянием. 100% воспроизводимость без внешних серверов.</td>
+      <td>0 ₽ (локально)</td>
+    </tr>
+    <tr>
+      <td><strong>IDE-агент</strong><br>Cursor / Claude Code / Antigravity / DeepSeek Harness</td>
+      <td>Среда диалога с продакт-менеджером, чтение <code>AGENTS.md</code>, вызов скиллов, остановка на шлюзах G1–G3.</td>
+      <td>0 ₽ (интегрировано в IDE)</td>
+    </tr>
+    <tr>
+      <td><strong>Человек (Human-in-the-loop)</strong></td>
+      <td>Утверждение рамок на шлюзах G1, G2, G3. Ручной замер времени и затрат. Финальная юридическая ответственность.</td>
+      <td>~3 ч рабочего времени</td>
+    </tr>
+    <tr>
+      <td><strong>Git + GitHub</strong></td>
+      <td>Версионирование, pre-commit hook, публичный доступ для жюри.</td>
+      <td>0 ₽</td>
+    </tr>
+  </table>
+
+  <h3>Почему НЕ используются тяжёлые фреймворки</h3>
+  <ul>
+    <li><strong>CrewAI / AutoGen / LangGraph:</strong> создают оверхед до 10× по токенам, склонны к зацикливанию, скрывают ход рассуждений. Папка с протоколом прозрачнее, дешевле, запускается в любой IDE.</li>
+    <li><strong>Векторные БД (Pinecone, ChromaDB):</strong> 15–30 источников укладываются в длинный контекст современных LLM. Векторный поиск добавляет риск потери контекста при чанковании.</li>
+    <li><strong>Платные поисковые API (Tavily, SerpAPI):</strong> встроенный веб-поиск IDE достаточен; бюджет сохранён на 0 ₽.</li>
+  </ul>
+</section>
+
+<!-- 3. ПРОМПТЫ -->
+<section>
+  <h2><span class="section-num">3</span>Ключевые промпты и инструкции агента</h2>
+
+  <h3>Системный промпт: <code>AGENTS.md</code></h3>
+  <div class="callout">
+    Главный файл (v1.1). Содержит: карту стадий, 4 формата данных-контракта, правила доказательств, список субагентов, правила шлюзов G1–G2–G3, запреты (не выдумывать цифры, не выдавать синтетику за факт, не продолжать после шлюза без ответа человека).
+  </div>
+
+  <h3>Карта скиллов</h3>
+  <table>
+    <tr><th>Скилл</th><th>Ключевой промпт</th></tr>
+    <tr><td><code>intake</code></td><td>Уточнить вопрос, цель, получателя, ограничения. Спрашивать только то, что влияет на следующий шаг.</td></tr>
+    <tr><td><code>research-plan</code></td><td>Построить дерево вопросов, меняющих решение руководителя. Остановиться на G1.</td></tr>
+    <tr><td><code>collect-sources</code></td><td>Собирать только открытые материалы. Фиксировать прямые цитаты, URL, дату доступа, лицензию в <code>sources.csv</code>. Лимит: до 20 источников.</td></tr>
+    <tr><td><code>evidence</code></td><td>Маркировать каждое утверждение: <code>[FACT]</code>, <code>[HYP]</code> или <code>[FORECAST]</code> с ссылкой <code>[S#]</code>. Если факта нет — фиксировать в <code>gaps.md</code>, не домысливать.</td></tr>
+    <tr><td><code>options</code></td><td>Не менее 4 содержательно разных вариантов, включая статус-кво и закрытие. Роль критика — найти механизмы провала. Остановиться на G2.</td></tr>
+    <tr><td><code>product-strategy</code></td><td>5 обязательных разделов: CJM, матрица согласий (152-ФЗ), экономика, пятистрочная таблица показателей, осознанные отказы.</td></tr>
+    <tr><td><code>communication</code></td><td>Барьеры → ключевое сообщение → RTB → матрица «Обещание→Фича→Источник». Обещания соответствуют продукту.</td></tr>
+    <tr><td><code>test-plan</code></td><td>A/B Holdout: выборка N (MDE, power 80%), guardrails, стоп-правила, сроки. Остановиться на G3.</td></tr>
+    <tr><td><code>decision-record</code></td><td>Зафиксировать решение, владельцев, метрики, дату пересмотра, условия отката.</td></tr>
+    <tr><td><code>review</code></td><td>Найти устаревшие основания (&gt;365 дней) и наступившие сроки пересмотра. Не переписывать решения — только сигнализировать.</td></tr>
+  </table>
+
+  <h3>Специализированные роли (субагенты)</h3>
+  <table>
+    <tr><th>Роль</th><th>Файл</th><th>Промпт (кратко)</th></tr>
+    <tr><td>Критик</td><td><code>agents/critic.md</code></td><td>Независимый скептик: ищет уязвимости бизнес-модели, риски задержки биллинга, конфликты интересов. Возвращает список механизмов провала.</td></tr>
+    <tr><td>Аудитор источников</td><td><code>agents/source-auditor.md</code></td><td>Сверяет формулировку claims с точной цитатой в sources.csv. Находит расхождения по смыслу и некорректные экстраполяции.</td></tr>
+    <tr><td>Интервьюер / персона</td><td><code>agents/persona-interviewer.md</code></td><td>Генерирует гайды по «The Mom Test». Симулирует диалоги с синтетическими абонентами. Строго соблюдает маркер <code>[SYNTHETIC-PERSONA]</code>.</td></tr>
+    <tr><td>Дата-аналитик</td><td><code>agents/data-analyst.md</code></td><td>Контролирует размерности (номера vs семьи vs домохозяйства), исключает двойной счёт, рассчитывает статистическую мощность.</td></tr>
+    <tr><td>UX-аналитик</td><td><code>agents/ux-analyst.md</code></td><td>Разбирает интерфейсы и CJM: только то, что реально видно в материале. Не домысливает UX по описанию.</td></tr>
+    <tr><td>Маршрутизатор</td><td><code>agents/router.md</code></td><td>Выбирает роль, модель и инструмент по сложности задачи, стоимости и качеству. Детерминированные скрипты — первый выбор.</td></tr>
+  </table>
+</section>
+
+<!-- 4. ДОПОЛНИТЕЛЬНЫЙ УРОВЕНЬ -->
+<section>
+  <h2><span class="section-num">4</span>Возможности дополнительного уровня</h2>
+
+  <table>
+    <tr><th>Возможность</th><th>Статус</th><th>Реализация</th></tr>
+    <tr><td>Синтетические интервью и модельные персоны</td><td><span class="badge badge-green">Реализовано</span></td><td><code>agents/persona-interviewer.md</code> + <code>scripts/simulate_persona.py</code>. Маркер <code>[SYNTHETIC-PERSONA]</code> обязателен. Синтетика не получает статус <code>[FACT]</code>.</td></tr>
+    <tr><td>Анализ пользовательского опыта (UX)</td><td><span class="badge badge-green">Реализовано</span></td><td><code>agents/ux-analyst.md</code>, CJM в <code>strategy/product.md</code>, матрица согласий (152-ФЗ), идемпотентность.</td></tr>
+    <tr><td>Анализ данных и расчёты</td><td><span class="badge badge-green">Реализовано</span></td><td><code>agents/data-analyst.md</code> + <code>scripts/calc_economics.py</code>: выборка 3 276 семей, MDE −3 п.п., power 80%, breakeven за 7 мес., stress-test.</td></tr>
+    <tr><td>Поддержка решений</td><td><span class="badge badge-green">Реализовано</span></td><td><code>decision-log.md</code>, <code>decision-record.md</code>. Связка решений с владельцами, метриками и порогами отката.</td></tr>
+    <tr><td>Пересмотр при новых данных</td><td><span class="badge badge-green">Реализовано</span></td><td><code>skills/review/</code> + <code>scripts/review.py</code>: мониторинг сроков пересмотра и устаревших источников (&gt;365 дней).</td></tr>
+    <tr><td>Маршрутизация (Routing)</td><td><span class="badge badge-green">Реализовано</span></td><td><code>agents/router.md</code>: детерминированные скрипты → быстрые LLM → рассуждающие LLM. Снижение расхода токенов в 3–5 раз.</td></tr>
+    <tr><td>Навыки, хуки, субагенты</td><td><span class="badge badge-green">Реализовано</span></td><td>10 скиллов + 6 субагентов + Git pre-commit hook.</td></tr>
+    <tr><td>Интеграции через CLI</td><td><span class="badge badge-green">Реализовано</span></td><td>9 CLI-скриптов на stdlib Python. Запуск в 1 строку.</td></tr>
+    <tr><td>База знаний с навигацией</td><td><span class="badge badge-green">Реализовано</span></td><td><code>knowledge/methods/</code> + <code>knowledge/INDEX.md</code>: методы, интервью, юнит-экономика, коммуникация.</td></tr>
+    <tr><td>Сравнение с baseline (обычный чат)</td><td><span class="badge badge-green">Реализовано</span></td><td><code>scripts/baseline_run.py</code> + <code>evals/baseline.md</code>: 100% цитируемость vs 0% у обычного чата.</td></tr>
+    <tr><td>Мультимодальный анализ (PDF, изображения)</td><td><span class="badge badge-blue">Частично</span></td><td>Анализ PDF брифа через Gemini Flash. Разбор скриншотов интерфейсов — в роли <code>ux-analyst.md</code>, без живой демонстрации в demo-кейсе.</td></tr>
+    <tr><td>Программная автомаршрутизация</td><td><span class="badge badge-blue">Частично</span></td><td>Логика в <code>router.md</code>; автоматическое переключение — на усмотрение IDE-агента при чтении AGENTS.md.</td></tr>
+  </table>
+</section>
+
+<!-- 5. ВРЕМЯ И РАСХОДЫ -->
+<section>
+  <h2><span class="section-num">5</span>Время и расходы на демонстрационный проект</h2>
+
+  <div class="callout callout-green">
+    <strong>Итог демо-прогона:</strong> 180 минут · 0 ₽ прямых расходов · 3 шлюза с участием человека
+  </div>
+
+  <table>
+    <tr><th>Стадия</th><th>Время, мин</th><th>Токены in</th><th>Токены out</th><th>Стоимость, ₽</th><th>Участие человека</th></tr>
+    <tr><td>00-intake</td><td>10</td><td>12 500</td><td>1 800</td><td>0</td><td>10 мин</td></tr>
+    <tr><td>01-research-plan</td><td>15</td><td>18 200</td><td>2 400</td><td>0</td><td>15 мин + G1</td></tr>
+    <tr><td>02-collect-sources</td><td>20</td><td>35 400</td><td>4 200</td><td>0</td><td>20 мин</td></tr>
+    <tr><td>03-evidence</td><td>25</td><td>42 100</td><td>5 600</td><td>0</td><td>25 мин</td></tr>
+    <tr><td>04-options</td><td>20</td><td>51 000</td><td>6 800</td><td>0</td><td>20 мин + G2</td></tr>
+    <tr><td>05-product-strategy</td><td>30</td><td>64 500</td><td>8 900</td><td>0</td><td>30 мин</td></tr>
+    <tr><td>06-communication</td><td>20</td><td>38 200</td><td>5 100</td><td>0</td><td>20 мин</td></tr>
+    <tr><td>07-test-plan</td><td>20</td><td>32 800</td><td>4 600</td><td>0</td><td>20 мин + G3</td></tr>
+    <tr><td>08-decision-record</td><td>10</td><td>16 400</td><td>2 200</td><td>0</td><td>10 мин</td></tr>
+    <tr><td>09-review</td><td>10</td><td>14 200</td><td>1 900</td><td>0</td><td>10 мин</td></tr>
+    <tr><td><strong>Итого</strong></td><td><strong>180 мин</strong></td><td><strong>325 300</strong></td><td><strong>43 500</strong></td><td><strong>0 ₽</strong></td><td><strong>3 ч</strong></td></tr>
+  </table>
+
+  <h3>Ошибки и вмешательство человека</h3>
+  <ul>
+    <li><strong>G1 (стадия 01):</strong> человек скорректировал приоритет — фокус на семейные группы, мультиномера отложены до Q4. Агент не продолжал до явного ответа.</li>
+    <li><strong>G2 (стадия 04):</strong> выбран вариант 03-family-proactive; добавлено требование защиты от повторных списаний (идемпотентность).</li>
+    <li><strong>G3 (стадия 07):</strong> утверждены стратегии и пилот на Q2; подтверждён ресурс QA-инженера.</li>
+    <li><strong>Технических ошибок агента</strong> в demo-прогоне не зафиксировано. Скрипт <code>check.py --all</code> → 0 ошибок.</li>
+  </ul>
+
+  <h3>Бюджет резерва</h3>
+  <p>500–1000 ₽ зарезервировано только на случай исчерпания бесплатных квот в день записи видео. Платные сервисы не входят в критический путь.</p>
+</section>
+
+<!-- 6. ОГРАНИЧЕНИЯ -->
+<section>
+  <h2><span class="section-num">6</span>Заявленные возможности и ограничения</h2>
+
+  <h3>Что агент делает</h3>
+  <ul>
+    <li>Превращает размытый запрос в строгую карточку и дерево вопросов, меняющих решение.</li>
+    <li>Работает только с открытыми источниками; сохраняет прямые цитаты, URL и лицензии.</li>
+    <li>Маркирует каждое суждение: <code>[FACT]</code>, <code>[HYP]</code>, <code>[FORECAST]</code> + <code>[S#]</code>. Скрипт <code>check.py</code> проверяет автоматически.</li>
+    <li>Генерирует ≥4 содержательно контрастных варианта, включая статус-кво и закрытие.</li>
+    <li>Рассчитывает воспроизводимую юнит-экономику и статистическую мощность пилотов (Python stdlib, без LLM-арифметики).</li>
+    <li>Возобновляет работу после перерыва с помощью <code>resume.py</code> — агент не начинает заново.</li>
+    <li>Ведёт журнал решений с датами пересмотра и условиями отката.</li>
+  </ul>
+
+  <h3>Что агент НЕ делает</h3>
+  <ul>
+    <li><strong>Не выдумывает цифры</strong> — если факта нет, фиксирует пробел в <code>gaps.md</code>.</li>
+    <li><strong>Не выдаёт синтетические интервью за реальный спрос</strong> — маркер <code>[SYNTHETIC-PERSONA]</code> обязателен, статус <code>[FACT]</code> недоступен.</li>
+    <li><strong>Не принимает стратегические решения самовольно</strong> — на G1, G2, G3 переходит в <code>waiting_human</code> и блокируется до явного ответа.</li>
+    <li><strong>Не использует закрытые данные МегаФона</strong> — только открытые источники.</li>
+    <li><strong>Не создаёт веб-сервисов или мультиагентных оркестраторов</strong> — переносимая папка, работающая в любой IDE.</li>
+  </ul>
+
+  <h3>Где агент может ошибаться</h3>
+  <ul>
+    <li><strong>Задержка обновления источников:</strong> тарифные сетки меняются быстрее, чем обновляются открытые страницы.</li>
+    <li><strong>Смещение веб-отзывов:</strong> форумы и сторы смещены в сторону крайнего негатива — «молчаливое довольное большинство» не отражено.</li>
+    <li><strong>Юридические тонкости:</strong> применение ст. 53 и 63 Закона «О связи» требует финальной визы корпоративного юриста.</li>
+  </ul>
+
+  <h3>Как это проверено</h3>
+  <table>
+    <tr><th>Метод</th><th>Инструмент</th><th>Результат</th></tr>
+    <tr><td>Автоматическая валидация</td><td><code>python3 scripts/check.py --all</code></td><td>0 ошибок</td></tr>
+    <tr><td>Секрет-скан</td><td><code>check.py --secrets</code></td><td>0 находок</td></tr>
+    <tr><td>Проверка URL источников</td><td><code>scripts/verify_urls.py</code></td><td>14/14 доступны</td></tr>
+    <tr><td>Тест фикстуры с утечкой</td><td><code>evals/fixtures/bad_project/</code></td><td>check.py детектирует, exit 1</td></tr>
+    <tr><td>Аудит цитат человеком</td><td>10 случайных claims из claims.md</td><td>10/10 соответствуют sources.csv</td></tr>
+    <tr><td>Второй кейс</td><td><code>evals/case-2/</code> (МегаФон ТВ)</td><td>PASSED</td></tr>
+  </table>
+
+  <div style="margin-top: 48px; padding-top: 24px; border-top: 1px solid #e8e8e8; font-size: 9pt; color: #888; text-align: center;">
+    mega-strategist · github.com/FrankyShelloy/mega-strategist · MIT License · 2026-11-21
+  </div>
+</section>
+
+</body>
+</html>
