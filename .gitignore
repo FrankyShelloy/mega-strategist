@@ -31,3 +31,4 @@ Thumbs.db
 *.bak
 tmp/
 .cache/
+demo/video_frames/
