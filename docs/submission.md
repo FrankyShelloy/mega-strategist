@@ -44,6 +44,8 @@
 
 ## Как проверить проект члену жюри за 3 минуты
 
+> ⚠️ **Перед клонированием** убедитесь, что автор выполнил `git push origin main` — ветка `main` на GitHub должна быть актуальной. Проверить: последний коммит на https://github.com/FrankyShelloy/mega-strategist совпадает с датой сдачи.
+
 1. **Клонировать репозиторий:**
    ```bash
    git clone https://github.com/FrankyShelloy/mega-strategist.git

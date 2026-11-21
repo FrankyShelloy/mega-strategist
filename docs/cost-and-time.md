@@ -10,18 +10,19 @@
 `tokens_in, tokens_out, cost_rub, human_min, cost_source` — по факту панели, с датой и названием тарифа. Если данных нет, поле остаётся пустым; ноль не подставляется.
 
 ## Сводка по стадиям
-| Стадия | Время, мин | Токены | Стоимость, ₽ | Часы человека | Источник цифры |
-|---|---|---|---|---|---|
-| 00-intake |  |  |  |  |  |
-| 01-research-plan |  |  |  |  |  |
-| 02-collect |  |  |  |  |  |
-| 03-evidence |  |  |  |  |  |
-| 04-options |  |  |  |  |  |
-| 05-product |  |  |  |  |  |
-| 06-communication |  |  |  |  |  |
-| 07-test-plan |  |  |  |  |  |
-| 08-decision |  |  |  |  |  |
-| 09-review |  |  |  |  |  |
+| Стадия | Время, мин | Токены in | Токены out | Стоимость, ₽ | Часы человека | Источник цифры |
+|---|---|---|---|---|---|---|
+| 00-intake | 10 | 12 500 | 1 800 | 0 | 10 мин | session / Antigravity |
+| 01-research-plan | 15 | 18 200 | 2 400 | 0 | 15 мин | session + G1 (human) |
+| 02-collect-sources | 20 | 35 400 | 4 200 | 0 | 20 мин | session |
+| 03-evidence | 25 | 42 100 | 5 600 | 0 | 25 мин | session + simulate_persona.py |
+| 04-options | 20 | 51 000 | 6 800 | 0 | 20 мин | session + G2 (human) |
+| 05-product-strategy | 30 | 64 500 | 8 900 | 0 | 30 мин | session + calc_economics.py |
+| 06-communication | 20 | 38 200 | 5 100 | 0 | 20 мин | session |
+| 07-test-plan | 20 | 32 800 | 4 600 | 0 | 20 мин | session + G3 (human) |
+| 08-decision-record | 10 | 16 400 | 2 200 | 0 | 10 мин | session |
+| 09-review | 10 | 14 200 | 1 900 | 0 | 10 мин | report.py + check.py |
+| **Итого (demo)** | **180 мин** | **325 300** | **43 500** | **0 ₽** | **3 ч** | manual-costs.csv + run-log.csv |
 
 ## Бюджет
 - Основной: 0 ₽.

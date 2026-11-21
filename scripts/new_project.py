@@ -8,6 +8,10 @@ from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+COSTS_HEADER = "stage,tokens_in,tokens_out,cost_rub,human_min\n"
+STAGES = ["00-intake","01-research-plan","02-collect-sources","03-evidence",
+          "04-options","05-product-strategy","06-communication","07-test-plan",
+          "08-decision-record","09-review"]
 LOG = "ts,stage,actor,action,tool,artifact,status,note,tokens_in,tokens_out,cost_rub,human_min,cost_source\n"
 
 
@@ -31,6 +35,9 @@ def main():
              f"do_not_redo: []\nopen_questions: []\nupdated: {date.today().isoformat()}\n")
     (target / "state.md").write_text(state, encoding="utf-8")
     (target / "run-log.csv").write_text(LOG, encoding="utf-8")
+    # Создаём пустую таблицу ручных затрат (заполняется человеком по факту)
+    costs_rows = COSTS_HEADER + "".join(f"{s},,,, \n" for s in STAGES)
+    (target / "manual-costs.csv").write_text(costs_rows, encoding="utf-8")
     brief = target / "brief.md"
     if args.question and brief.exists():
         text = brief.read_text(encoding="utf-8")

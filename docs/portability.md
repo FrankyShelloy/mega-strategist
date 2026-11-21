@@ -1,9 +1,10 @@
 # Переносимость и хуки
 
 ## Статус проверок
-- **Проверено 4.11:** `python3 scripts/check.py`, `--all`, `--secrets`, проверка фикстуры и ручной запуск `.githooks/pre-commit`.
-- **Не подтверждено:** автозапуск IDE-хука в DeepSeek harness, нативное чтение `.claude/settings.json` в Claude Code, поддержка hooks в Cursor, поведение Antigravity.
-- До подтверждения действует ручное правило: после записи в `claims.md` и `sources.csv` выполнить `python3 scripts/check.py`.
+- **Проверено 2026-11-21:** `python3 scripts/check.py`, `--all`, `--secrets`, проверка фикстуры и ручной запуск `.githooks/pre-commit`. Все проверки: 0 ошибок.
+- **Подтверждено 2026-11-21:** Antigravity читает `AGENTS.md`, выполняет скрипты через встроенный терминал, `check.py --all` вернул 0 ошибок. Агент корректно проходит все 10 стадий workflow.
+- **Не подтверждено:** автозапуск IDE-хука в DeepSeek harness (мост `@deepseek-ai/dsh-hooks-claude-code`), нативное чтение `.claude/settings.json` в Claude Code, поддержка hooks в Cursor.
+- До подтверждения других IDE действует ручное правило: после записи в `claims.md` и `sources.csv` выполнить `python3 scripts/check.py`.
 
 ## Что переносится без изменений
 `AGENTS.md`, `CLAUDE.md`, `skills/`, `knowledge/`, `projects/`, `scripts/`. Пути относительные, внешних Python-пакетов нет. Активный проект задаётся строкой в `projects/ACTIVE`.
