@@ -32,3 +32,4 @@ Thumbs.db
 tmp/
 .cache/
 demo/video_frames/
+*.mp4
