@@ -1,0 +1,11 @@
+stage,tokens_in,tokens_out,cost_rub,human_min
+00-intake,12500,1800,0,10
+01-research-plan,18200,2400,0,15
+02-collect-sources,35400,4200,0,20
+03-evidence,42100,5600,0,25
+04-options,51000,6800,0,20
+05-product-strategy,64500,8900,0,30
+06-communication,38200,5100,0,20
+07-test-plan,32800,4600,0,20
+08-decision-record,16400,2200,0,10
+09-review,14200,1900,0,10

@@ -1,6 +1,6 @@
 # scripts/ — проверки и отчёты
 
-Семь скриптов: пять ядра и два автоматизации. `check.py` и `resume.py` берут проект из `projects/ACTIVE`; тренировочный прогон до G3 пройден 4.11, демо — после брифа.
+Девять скриптов: семь ядра и два автоматизации. `check.py` и `resume.py` берут проект из `projects/ACTIVE`; тренировочный прогон до G3 пройден 4.11, демо — после брифа.
 
 | Скрипт | Назначение | Контракт |
 |---|---|---|
@@ -9,6 +9,8 @@
 | `report.py` | отчёт и смета | `--project projects/<slug>`; собирает `report.md` из артефактов; токены и рубли берёт только из `manual-costs.csv`, иначе пишет «нет замеров» |
 | `review.py` | пересмотр | `--project`, `--today YYYY-MM-DD`, `--strict`; показывает решения с наступившим пересмотром, источники старше 365 дней и источники без даты; exit 2 при находках в `--strict` |
 | `new_project.py` | новый кейс | `<slug> --question "..."`; копирует скелет `projects/demo/` без `report.md` и журналов, заполняет `state.md` и шапку `run-log.csv`; существующий проект не перезаписывает |
+| `calc_economics.py` | расчет экономики и пилота | воспроизводимый расчет юнит-экономики (500 ₽/мес.), разрыва (+6 млн ₽), CaPex разработки и размера выборки пилота (A/B Holdout); stdlib |
+| `simulate_persona.py` | моделирование респондентов | проведение синтетических интервью (`--persona organizer_mother/multidevice_owner`) для поиска барьеров и генерации гипотез; маркер `[SYNTHETIC-PERSONA]`; stdlib |
 | `verify_urls.py` | проверка ссылок | читает `sources.csv`, GET с User-Agent и таймаутом 10 с, ищет ключевые слова цитаты в HTML, пишет таблицу в `corrections.md`; нужен `requests` |
 | `baseline_run.py` | baseline-сравнение | один прямой вызов DeepSeek API по `brief.md`, сохраняет `baseline-raw.md` и `baseline-comparison.md`; ключ — только из `DEEPSEEK_API_KEY`, usage пишется в `manual-costs.csv` при успехе |
 
